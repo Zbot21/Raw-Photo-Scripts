@@ -7,10 +7,10 @@ foreach $file (@jpg_files) {
 	$file =~ s/.(JPG|jpg)//;
 	if (!exists($raw_files{"$file.CR2"})) {
 		print "Deleting $file.CR2\n"
-		# unlink "$file.CR2"
+		unlink "$file.CR2"
 	}
 	if (!exists($raw_files{"$file.cr2"})) {
 		print "Deleting $file.cr2\n"
-		# unlink "$file.cr2"
+		unlink "$file.cr2"
 	}
 }
