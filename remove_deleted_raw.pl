@@ -1,16 +1,19 @@
+use strict;
+use warnings;
+use List::MoreUtils qw(uniq);
+
 my $directory = $ARGV[0];
-print $directory
-my %raw_files = map {$_ => 1} glob "$directory/*.{CR2,cr2}";
-my @jpg_files = glob "$directory/*.{JPG,jpg}";
-foreach $file (@jpg_files) {
-	print $file
+my %raw_files = map {$_ => 1} glob("$directory/*.cr2");
+my @jpg_files = uniq(glob "$directory/*.{JPG,jpg}");
+foreach my $file (@jpg_files) {
 	$file =~ s/.(JPG|jpg)//;
-	if (!exists($raw_files{"$file.CR2"})) {
-		print "Deleting $file.CR2\n"
-		unlink "$file.CR2"
-	}
-	if (!exists($raw_files{"$file.cr2"})) {
-		print "Deleting $file.cr2\n"
-		unlink "$file.cr2"
+	if (!exists($raw_files{"$file.CR2"}) and !exists($raw_files{"$file.cr2"})) {
+		print "Deleting $file.(jpg|JPG)";
+		if (-f "$file\.jpg") {
+			unlink "$file.jpg";
+		}
+		if (-f "$file\.JPG") {
+			unlink "$file.JPG";
+		}
 	}
 }
